@@ -21,12 +21,12 @@
 ## Table of Contents
 
 - [General Concept](#general-concept)
-- [Key Features](#key-features)
-  - [Rich Multi-Color Highlighting](#1-rich-multi-color-text-highlighting)
-  - [Freehand Pen & Canvas Drawing](#2-freehand-pen--canvas-drawing)
-  - [Persistent Storage Across Sessions](#3-persistent-in-browser-storage)
-  - [One-Click PNG Snapshot Export](#4-one-click-png-snapshot-export)
-  - [Keyboard-First Workflow](#5-keyboard-first-workflow)
+- [Key Features with Visual Walkthroughs](#key-features-with-visual-walkthroughs)
+  - [1. Rich Multi-Color Text Highlighting](#1-rich-multi-color-text-highlighting)
+  - [2. Freehand Pen & Canvas Drawing](#2-freehand-pen--canvas-drawing)
+  - [3. Persistent In-Browser Storage](#3-persistent-in-browser-storage)
+  - [4. One-Click PNG Snapshot Export](#4-one-click-png-snapshot-export)
+  - [5. Keyboard-First Workflow](#5-keyboard-first-workflow)
 - [Architecture & Design](#architecture--design)
 - [One-Click Automated Installation](#one-click-automated-installation)
 - [Manual Installation in Safari](#manual-installation-in-safari)
@@ -38,7 +38,7 @@
 
 ## General Concept
 
-Reading dense technical documentation, academic papers, lecture transcripts, and web articles in Safari often requires active reading tools: highlighting critical arguments, circling key figures, and taking contextual margins notes.
+Reading dense technical documentation, academic papers, lecture transcripts, and web articles in Safari often requires active reading tools: highlighting critical arguments, circling key figures, and taking contextual margin notes.
 
 **Safari Web Annotator** brings an Apple-inspired floating creative toolbar directly into Safari web pages:
 - Highlights survive tab closures and page reloads.
@@ -47,27 +47,56 @@ Reading dense technical documentation, academic papers, lecture transcripts, and
 
 ---
 
-## Key Features
+## Key Features with Visual Walkthroughs
 
 ### 1. Rich Multi-Color Text Highlighting
+
+<p align="center">
+  <img src="docs/images/feature-text-highlighting.png" alt="Multi-Color Text Highlighting and Palette HUD" width="850">
+</p>
+
 - Select any text on a page to apply smooth translucent highlight ribbons.
 - Multiple Apple palette presets (Neon Yellow, Coral Red, Sky Blue, Lime Green, Lavender).
 - Click any active highlight to remove it or change color.
 
+---
+
 ### 2. Freehand Pen & Canvas Drawing
+
+<p align="center">
+  <img src="docs/images/feature-drawing-canvas.png" alt="HTML5 Canvas Drawing with Bézier Smoothing" width="850">
+</p>
+
 - Toggle a full-viewport transparent HTML5 canvas overlay.
 - Smooth Bézier curve interpolation for natural Apple Pencil / trackpad stylus drawing.
 - Adjustable stroke widths (Fine, Medium, Marker, Calligraphy).
 
+---
+
 ### 3. Persistent In-Browser Storage
+
+<p align="center">
+  <img src="docs/images/feature-persistent-storage.png" alt="Persistent Storage Indexed by Canonical URL" width="850">
+</p>
+
 - Highlights and annotations are serialized and indexed by the page's canonical URL via `chrome.storage.local`.
 - When returning to a previously marked article, your highlights are automatically re-applied to the DOM.
 
+---
+
 ### 4. One-Click PNG Snapshot Export
+
+<p align="center">
+  <img src="docs/images/feature-snapshot-export.png" alt="Instant PNG Canvas Snapshot Export" width="850">
+</p>
+
 - Flatten your drawings and page annotations into high-resolution PNG images.
 - Ideal for compiling study cheatsheets or sharing feedback with colleagues.
 
+---
+
 ### 5. Keyboard-First Workflow
+
 - Complete keyboard accessibility with native macOS shortcuts (`Alt + Shift + A`, `Alt + Shift + H`, `Alt + Shift + D`).
 
 ---
@@ -78,6 +107,7 @@ Reading dense technical documentation, academic papers, lecture transcripts, and
 safari-highlighter-extension/
 ├── manifest.json       # Manifest V3 definitions, permissions, shortcut commands
 ├── background.js       # Background message router & badge controller
+├── docs/images/        # Visual walkthrough graphics & architecture diagrams
 ├── icons/              # Creative Sunset-Violet vector & multi-res PNG icons
 │   ├── logo.svg
 │   ├── icon-16.png
