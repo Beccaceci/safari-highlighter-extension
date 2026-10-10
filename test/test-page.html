@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari Annotator Test Suite & Showcase</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: white;
+      padding: 48px 24px 36px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      letter-spacing: -0.5px;
+    }
+    header p {
+      margin: 0 auto;
+      max-width: 600px;
+      color: #94a3b8;
+      font-size: 16px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    main {
+      max-width: 860px;
+      margin: 36px auto;
+      padding: 0 20px 100px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+    h2 {
+      margin-top: 0;
+      color: #1e293b;
+      font-size: 22px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    p {
+      margin: 14px 0;
+      font-size: 16px;
+    }
+    blockquote {
+      margin: 20px 0;
+      padding: 14px 20px;
+      background: #f1f5f9;
+      border-left: 4px solid var(--primary);
+      border-radius: 4px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    ul, ol {
+      padding-left: 24px;
+      margin: 14px 0;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .instructions-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .instructions-box h3 {
+      margin: 0 0 10px;
+      color: #1e40af;
+      font-size: 17px;
+    }
+    .instructions-box ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #1e3a8a;
+    }
+    .step-tag {
+      background: #2563eb;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    code {
+      font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", monospace;
+    }
+  </style>
+
+  <!-- Load content scripts for standalone direct browser preview -->
+  <script src="../content/storage.js"></script>
+  <script src="../content/highlighter.js"></script>
+  <script src="../content/drawer.js"></script>
+  <script src="../content/toolbar.js"></script>
+  <script src="../content/content.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="badge">Safari Web Extension Testbed</div>
+    <h1>Safari Web Annotator Test Page</h1>
+    <p>Test text highlighting across complex DOM elements and freehand drawing across scroll boundaries.</p>
+  </header>
+
+  <main>
+    <div class="instructions-box">
+      <h3>🚀 How to Test the Extension</h3>
+      <ol>
+        <li><strong>Return from Navbar to Square:</strong> Whenever you load or search a page, the annotator starts as a discreet little square (<strong>🖍️</strong>) docked in the top-right corner. Click it to <strong>enlarge</strong> into the full navbar. To <strong>return from the navbar back to the square</strong>, click the <strong>🔲</strong> button on the left of the dock header, or the <strong>🗗</strong> / <strong>✕</strong> buttons on the right, or simply press <kbd>Escape</kbd>!</li>
+        <li><strong>Forms & Polygons Popover:</strong> Click the <strong>🔲▾</strong> forms button on the dock to open the selection popover. Choose between <strong>Rectangle</strong>, <strong>Circle</strong>, <strong>Triangle</strong>, <strong>Diamond</strong>, <strong>Pentagon</strong>, <strong>Hexagon</strong>, <strong>Star</strong>, <strong>Arrow</strong>, <strong>Line</strong>, and <strong>Custom Polygon</strong>! With <em>Custom Polygon</em>, click anywhere on the page to place vertices—a rubber-band line tracks your cursor; click the starting green vertex (or double-click) to close the shape!</li>
+        <li><strong>Completely Clear Whole Page (Icon + Shortcut):</strong> Click the <strong>🗑️</strong> button in the actions group or press <kbd>Ctrl+Shift+X</kbd> (<kbd>Cmd+Shift+X</kbd> on Mac). This completely clears all canvas drawings, all highlighted text passages, and erases stored data for this URL.</li>
+        <li><strong>Vertical / Horizontal Navbar & Drag Handle:</strong> Click the <strong>⇅</strong> button to switch orientation. Grab the <code>⋮⋮</code> drag handle to smoothly move the navbar anywhere across the screen without sticky anchoring.</li>
+        <li><strong>Highlighter Cursor & Text Feedback:</strong> Select <strong>🖍️ Highlight</strong> mode. The cursor matches your selected color and text blocks show subtle feedback. Selecting text highlights it cleanly without shifting line heights.</li>
+        <li><strong>Dual-Action Eraser (Drawings + Highlights):</strong> Switch to <strong>🧹 Eraser</strong> to delete both vector drawings and highlighted text on touch.</li>
+        <li><strong>Undo & Redo (Ctrl+Z / Ctrl+Y):</strong> Press <code>Ctrl+Z</code> (or <code>Cmd+Z</code>) to undo, and <code>Ctrl+Y</code> (or <code>Cmd+Y</code> / <code>Ctrl+Shift+Z</code>) to redo across drawings, shapes, and highlights!</li>
+        <li><strong>Laser Pointer (🔦):</strong> Click the <strong>🔦 Laser</strong> button on the dock. Moving the cursor shows a pulsing glowing laser dot, and dragging creates a brilliant glowing neon laser beam that automatically fades away after ~1.2 seconds—ideal for presentations, tutorials, and pointing things out without leaving permanent marks!</li>
+        <li><strong>Save Annotations & Snapshot Export (Shortcuts):</strong> Press <kbd>Cmd+S</kbd> (or <kbd>Ctrl+S</kbd> / <kbd>Alt+Shift+S</kbd>) to instantly save all drawings and highlights for this URL. Press <kbd>Cmd+Shift+E</kbd> (or <kbd>Ctrl+Shift+E</kbd>) to export a PNG snapshot of the annotated page.</li>
+      </ol>
+    </div>
+
+    <section class="card">
+      <h2>Section 1: Interactive Reading & Multi-Node Selection</h2>
+      <p>
+        In modern web browsers, annotating digital text should be as natural and frictionless as highlighting a physical book. When users review research papers, academic studies, or technical documentation, having persistent highlights across page visits is an essential productivity feature.
+      </p>
+      <blockquote>
+        "The ability to annotate, summarize, and draw visual connections directly onto reading material dramatically increases information retention and conceptual synthesis."
+      </blockquote>
+      <p>
+        Try selecting text that crosses formatting boundaries, such as <strong>bold words</strong>, <em>italicized phrasing</em>, or <a href="#test-link">hyperlinked references</a>. The highlighter handles boundary splitting and wraps nodes cleanly.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Section 2: Architecture & Key Concepts</h2>
+      <p>Here are the core pillars of the Safari Web Annotator:</p>
+      <ul>
+        <li><strong>Shadow DOM Isolation:</strong> The toolbar dock resides in an isolated Shadow DOM root, guaranteeing zero style collisions with host pages.</li>
+        <li><strong>Lossless Vector History:</strong> All drawing actions are stored as vector stroke models with quadratic Bézier curve smoothing rather than rasterized pixels.</li>
+        <li><strong>Smart Stroke Eraser:</strong> The eraser detects collision paths with existing strokes, deleting entire targeted strokes without leaving pixel debris.</li>
+        <li><strong>Local-First Storage:</strong> Highlights and explicitly saved drawings persist in <code>browser.storage.local</code> keyed to the page URL.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Section 3: Long Scroll Verification</h2>
+      <p>
+        This section is placed down here to test scroll synchronization. Try drawing an arrow or box around this paragraph, then scroll up to the top and back down. The overlay canvas dynamically scales with full document scroll height so your annotations never drift out of place.
+      </p>
+      <pre><code>// Example: Event listener for seamless drawing
+const canvas = document.getElementById("safari-annotator-canvas");
+canvas.addEventListener("mousedown", (e) => {
+  const x = e.pageX;
+  const y = e.pageY;
+  startDrawingAt(x, y);
+});</code></pre>
+      <p>
+        End of test suite document. Ready for Safari extension loading!
+      </p>
+    </section>
+  </main>
+
+</body>
+</html>
