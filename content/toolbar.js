@@ -694,9 +694,13 @@
     attachDockEvents() {
       const root = this.shadowRoot;
 
-      // Little square trigger: click to enlarge
+      // Little square trigger: click to enlarge (only on direct click, not after drag)
       const dockSquare = root.getElementById("dock-square");
-      dockSquare.addEventListener("click", () => {
+      dockSquare.addEventListener("click", (e) => {
+        if (this._squareDragged) {
+          this._squareDragged = false;
+          return;
+        }
         this.enlargeDock();
       });
 
@@ -807,6 +811,21 @@
       if (dockMain) {
         dockMain.style.display = "flex";
       }
+
+      // Ensure expanding from a custom square position doesn't overflow screen
+      requestAnimationFrame(() => {
+        const rect = this.getBoundingClientRect();
+        if (rect.right > window.innerWidth - 8) {
+          const newLeft = Math.max(8, window.innerWidth - rect.width - 12);
+          this.style.setProperty("left", `${newLeft}px`, "important");
+          this.style.setProperty("right", "auto", "important");
+        }
+        if (rect.bottom > window.innerHeight - 8) {
+          const newTop = Math.max(8, window.innerHeight - rect.height - 12);
+          this.style.setProperty("top", `${newTop}px`, "important");
+          this.style.setProperty("bottom", "auto", "important");
+        }
+      });
     }
 
     minimizeDock() {
@@ -1290,6 +1309,10 @@
           this.style.setProperty("bottom", "auto", "important");
           this.style.setProperty("transform", "none", "important");
 
+          if (isSquare) {
+            document.body.style.cursor = "grabbing";
+          }
+
           const onMouseMove = (ev) => {
             if (!isDragging) return;
             ev.preventDefault();
@@ -1297,7 +1320,7 @@
             const dx = ev.clientX - startX;
             const dy = ev.clientY - startY;
 
-            if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
               hasMoved = true;
             }
 
@@ -1321,6 +1344,23 @@
               isDragging = false;
               window.removeEventListener("mousemove", onMouseMove);
               window.removeEventListener("mouseup", onMouseUp);
+
+              if (isSquare) {
+                document.body.style.cursor = "";
+                if (hasMoved) {
+                  this._squareDragged = true;
+                  const captureClick = (cEv) => {
+                    cEv.stopPropagation();
+                    cEv.preventDefault();
+                    window.removeEventListener("click", captureClick, true);
+                  };
+                  window.addEventListener("click", captureClick, true);
+                  setTimeout(() => {
+                    window.removeEventListener("click", captureClick, true);
+                    this._squareDragged = false;
+                  }, 250);
+                }
+              }
             }
           };
 
